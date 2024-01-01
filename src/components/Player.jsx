@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const Player = () => {
+import "./Player.css"
+
+const Player = ({initialName}) => {
+    console.log(initialName);
+    const [name, setName] = useState(initialName);
+    const [isEdit, setIsEdit] = useState(false);
+    const handleClick = () => {
+        setIsEdit(prev => !isEdit)
+    }
+    const handleChange = (event) => {
+        setName(event.target.value);
+    }
   return (
     <div className="player">
-        <span>PLAYER1</span>
-        <span>Edit</span>
+        {!isEdit && <span>{name}</span>}
+        {isEdit && <input type="text" value={name} onChange={handleChange}/>}
+        <span onClick={handleClick}>{isEdit? 'Save' : 'Edit'}</span>
       </div>
   )
 }

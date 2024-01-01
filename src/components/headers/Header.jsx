@@ -1,18 +1,13 @@
 import React from 'react'
 
 import "./Header.css"
+import Player from '../Player'
 
 const Header = () => {
   return (
     <div className='inner-container'>
-      <div className="player">
-        <span>PLAYER1</span>
-        <span>Edit</span>
-      </div>
-      <div className="player">
-        <span>PLAYER2</span>
-        <span>Edit</span>
-      </div>
+     <Player initialName="player1"/>
+     <Player initialName="player2"/>
     </div>
   )
 }
