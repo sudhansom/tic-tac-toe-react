@@ -1,8 +1,7 @@
-.top-header {
+.container {
     max-width: 600px;
     margin: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    border: 1px solid gray;
+    border-radius: 12px;
+    padding: 12px;
 }
