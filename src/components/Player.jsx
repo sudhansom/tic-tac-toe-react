@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Player = ({initialName, symbol}) => {
+const Player = ({initialName, symbol, isActive}) => {
     const [ isEditable, setIsEditable ] = useState(false);
     const [name, setName] = useState(initialName);
     function handleEditClick(){
@@ -10,7 +10,7 @@ const Player = ({initialName, symbol}) => {
         setName(e.target.value);
     }
   return (
-    <li>
+    <li style={{border: isActive? '1px solid green' : ''}}>
         <span className="player">
             { isEditable && <input type='text' value={name} required onChange={handleChange}/>}
             {!isEditable && <span className="player-name">{name}</span>}

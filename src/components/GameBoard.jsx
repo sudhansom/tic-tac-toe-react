@@ -6,17 +6,21 @@ const initialGameBoard = [
     [null, null, null],
 ]
 
-initialGameBoard[0][1] = 'O';
 
-const GameBoard = () => {
+const GameBoard = ({onSelection, activePlayer}) => {
     const [gameBoard, setGameBoard] = useState(initialGameBoard);
     const handleClick = (i, j, s) => {
-
-        setGameBoard(prev => {
-            const temp = [...prev].map(innerArray => [...innerArray]);
-            temp[i][j] = 'X';
-            return temp;
-        })
+        if(s){
+            alert('not allowed to change...');
+            return
+        }
+    setGameBoard(prev => {
+        const temp = [...prev].map(innerArray => [...innerArray]);
+        temp[i][j] = activePlayer;
+        return temp;
+    })
+    onSelection();
+    
         
     }
   return (
