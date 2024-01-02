@@ -191,6 +191,7 @@ ol {
   cursor: pointer;
   font-family: 'Caprasimo', cursive;
   padding: 1rem;
+  border-radius: 12px;
 }
 
 #game-over {
