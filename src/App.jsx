@@ -1,5 +1,4 @@
-import TopHeader from './components/headers/TopHeader'
-import Header from './components/headers/Header'
+import Player from './components/Player'
 import './App.css'
 
 
@@ -7,10 +6,14 @@ function App() {
   
 
   return (
-   <div className="container">
-    <TopHeader />
-    <Header />
-   </div>
+   <main>
+    <div id="game-container">
+      <ol id="players">
+        <Player name="Player 1" symbol="X" />
+        <Player name="Player 2" symbol="O" />
+      </ol>
+    </div>
+   </main>
   )
 }
 
