@@ -4,6 +4,7 @@ import Player from './components/Player'
 import GameBoard from './components/GameBoard'
 import Log from './components/Log'
 import './App.css'
+import GameOver from './components/GameOver'
 import { WINNING_COMBINATIONS } from './winning-combinatin'
 
 const initialGameBoard = [
@@ -37,8 +38,8 @@ function App() {
   
   for (const combination of WINNING_COMBINATIONS){
     const first = gameBoard[combination[0].row][combination[0].col];
-    const second = gameBoard[combination[1].row][combination[0].col];
-    const third = gameBoard[combination[2].row][combination[0].col];
+    const second = gameBoard[combination[1].row][combination[1].col];
+    const third = gameBoard[combination[2].row][combination[2].col];
 
     if(first && first === second && first === third) {
       winner = first;
@@ -64,7 +65,7 @@ function App() {
         <Player initialName="Player 1" symbol="X" isActive={currentPlayer==='X'} />
         <Player initialName="Player 2" symbol="O" isActive={currentPlayer==='O'}/>
       </ol>
-      {winner && <p>You won {winner === 'X'? 'Player 1' : 'Player 2'} !!!</p>}
+      {winner && <GameOver winner={winner} />}
       <GameBoard onSelection={handleSelection} board={gameBoard} />
     </div>
     <Log updatedTurns={gameTurns} />
