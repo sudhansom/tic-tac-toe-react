@@ -33,7 +33,7 @@ const GameBoard = ({onSelection, updatedTurns}) => {
    <ol id="game-board">
     {gameBoard.map((row, i)=> <li key={i} >
         <ol>
-            {row.map((symbol, j) => <li key={j}><button onClick={()=>onSelection(i,j)}>{symbol}</button></li> )}
+            {row.map((symbol, j) => <li key={j}><button onClick={()=>onSelection(i,j, symbol)} disabled={!!symbol}>{symbol}</button></li> )}
         </ol>
     </li>)}
    </ol>

@@ -5,18 +5,27 @@ import GameBoard from './components/GameBoard'
 import Log from './components/Log'
 import './App.css'
 
+function deriveActivePlayer(gameTurns){
+  let currentPlayer = 'X';
+  if(gameTurns.length > 0 && gameTurns[0].player === 'X'){
+    currentPlayer = 'O';
+  }
+  return currentPlayer;
+}
+
 
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
-  const [activePlayer, setActivePlayer] = useState('X');
 
-  const handleSelection = (i, j) => {
-    setActivePlayer(prev => prev === 'X' ? 'O' : 'X');
+  const currentPlayer = deriveActivePlayer(gameTurns);
+
+  const handleSelection = (i, j, s) => {
+    // already disabled the button if the symbol exists. choose one way.
+    // if(s){
+    //   return;
+    // }
     setGameTurns(prev => {
-      let currentPlayer = 'X';
-      if(prev.length > 0 && prev[0].player === 'X'){
-        currentPlayer = 'O';
-      }
+      const currentPlayer = deriveActivePlayer(prev);
       const updatedTurns = [{square: {row: i, col: j}, player: currentPlayer}, ...prev];
       return updatedTurns;
     });
@@ -26,8 +35,8 @@ function App() {
    <main>
     <div id="game-container">
       <ol id="players">
-        <Player initialName="Player 1" symbol="X" isActive={activePlayer==='X'} />
-        <Player initialName="Player 2" symbol="O" isActive={activePlayer==='O'}/>
+        <Player initialName="Player 1" symbol="X" isActive={currentPlayer==='X'} />
+        <Player initialName="Player 2" symbol="O" isActive={currentPlayer==='O'}/>
       </ol>
       <GameBoard onSelection={handleSelection} updatedTurns={gameTurns} />
     </div>
