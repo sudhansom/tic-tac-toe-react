@@ -1,18 +1,8 @@
-const initialGameBoard = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-]
 
 
-const GameBoard = ({onSelection, updatedTurns}) => {
-    let gameBoard = initialGameBoard;
 
-    for (const turn of updatedTurns){
-        const {square, player} = turn;
-        const { row, col} = square;
-        gameBoard[row][col] = player;
-    }
+const GameBoard = ({onSelection, board}) => {
+    
 
     // const [gameBoard, setGameBoard] = useState(initialGameBoard);
     // const handleClick = (i, j, s) => {
@@ -31,7 +21,7 @@ const GameBoard = ({onSelection, updatedTurns}) => {
     // }
   return (
    <ol id="game-board">
-    {gameBoard.map((row, i)=> <li key={i} >
+    {board.map((row, i)=> <li key={i} >
         <ol>
             {row.map((symbol, j) => <li key={j}><button onClick={()=>onSelection(i,j, symbol)} disabled={!!symbol}>{symbol}</button></li> )}
         </ol>

@@ -5,6 +5,12 @@ import GameBoard from './components/GameBoard'
 import Log from './components/Log'
 import './App.css'
 
+const initialGameBoard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+]
+
 function deriveActivePlayer(gameTurns){
   let currentPlayer = 'X';
   if(gameTurns.length > 0 && gameTurns[0].player === 'X'){
@@ -18,6 +24,14 @@ function App() {
   const [gameTurns, setGameTurns] = useState([]);
 
   const currentPlayer = deriveActivePlayer(gameTurns);
+
+  let gameBoard = initialGameBoard;
+
+    for (const turn of gameTurns){
+        const {square, player} = turn;
+        const { row, col} = square;
+        gameBoard[row][col] = player;
+    }
 
   const handleSelection = (i, j, s) => {
     // already disabled the button if the symbol exists. choose one way.
@@ -38,7 +52,7 @@ function App() {
         <Player initialName="Player 1" symbol="X" isActive={currentPlayer==='X'} />
         <Player initialName="Player 2" symbol="O" isActive={currentPlayer==='O'}/>
       </ol>
-      <GameBoard onSelection={handleSelection} updatedTurns={gameTurns} />
+      <GameBoard onSelection={handleSelection} board={gameBoard} />
     </div>
     <Log updatedTurns={gameTurns} />
    </main>
