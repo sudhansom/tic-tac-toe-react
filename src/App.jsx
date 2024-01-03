@@ -16,6 +16,16 @@ const PLAYER = {
   X: 'Player 1',
   O: 'Player 2',
 }
+function deriveGameBoard(gameTurns){
+  let gameBoard = [...initialGameBoard.map(inner => [...inner])];
+
+  for (const turn of gameTurns){
+      const {square, player} = turn;
+      const { row, col} = square;
+      gameBoard[row][col] = player;
+  }
+  return gameBoard
+}
 
 function deriveActivePlayer(gameTurns){
   let currentPlayer = 'X';
@@ -24,21 +34,8 @@ function deriveActivePlayer(gameTurns){
   }
   return currentPlayer;
 }
-
-
-function App() {
-  const [ player, setPlayer ] = useState(PLAYER);
-  const [gameTurns, setGameTurns] = useState([]);
-  const currentPlayer = deriveActivePlayer(gameTurns);
-
-  let gameBoard = [...initialGameBoard.map(inner => [...inner])];
-
-    for (const turn of gameTurns){
-        const {square, player} = turn;
-        const { row, col} = square;
-        gameBoard[row][col] = player;
-    }
-    let winner;
+function deriveWinner(gameBoard){
+  let winner;
   
   for (const combination of WINNING_COMBINATIONS){
     const first = gameBoard[combination[0].row][combination[0].col];
@@ -49,6 +46,18 @@ function App() {
       winner = first;
     }
   }
+  return winner;
+}
+
+function App() {
+  const [ player, setPlayer ] = useState(PLAYER);
+  const [gameTurns, setGameTurns] = useState([]);
+  const currentPlayer = deriveActivePlayer(gameTurns);
+
+  const gameBoard = deriveGameBoard(gameTurns);
+  
+  const winner = deriveWinner(gameBoard);
+    
   let draw = gameTurns.length === 9 && !winner;
 
   const handleSelection = (i, j, s) => {
@@ -80,7 +89,7 @@ function App() {
       {(winner || draw)  && <GameOver winner={winner} onRestart={handleRematch} player={player}/>}
       <GameBoard onSelection={handleSelection} board={gameBoard}/>
     </div>
-    <Log updatedTurns={gameTurns} />
+    <Log updatedTurns={gameTurns} player={player} />
    </main>
   )
 }
