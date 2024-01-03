@@ -11,7 +11,11 @@ const initialGameBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
-]
+];
+const PLAYER = {
+  X: 'Player 1',
+  O: 'Player 2',
+}
 
 function deriveActivePlayer(gameTurns){
   let currentPlayer = 'X';
@@ -23,11 +27,11 @@ function deriveActivePlayer(gameTurns){
 
 
 function App() {
+  const [ player, setPlayer ] = useState(PLAYER);
   const [gameTurns, setGameTurns] = useState([]);
-
   const currentPlayer = deriveActivePlayer(gameTurns);
 
-  let gameBoard = initialGameBoard;
+  let gameBoard = [...initialGameBoard.map(inner => [...inner])];
 
     for (const turn of gameTurns){
         const {square, player} = turn;
@@ -45,6 +49,7 @@ function App() {
       winner = first;
     }
   }
+  let draw = gameTurns.length === 9 && !winner;
 
   const handleSelection = (i, j, s) => {
     // already disabled the button if the symbol exists. choose one way.
@@ -57,16 +62,23 @@ function App() {
       return updatedTurns;
     });
   }
+  function handleRematch(){
+    setGameTurns([]);
+  }
+
+  function handleSave (name, symbol){
+    setPlayer(prev => {return {... prev, [symbol]:name}});
+  }
 
   return (
    <main>
     <div id="game-container">
       <ol id="players">
-        <Player initialName="Player 1" symbol="X" isActive={currentPlayer==='X'} />
-        <Player initialName="Player 2" symbol="O" isActive={currentPlayer==='O'}/>
+        <Player initialName={player.X} symbol="X" handleSave={handleSave} isActive={currentPlayer==='X'} />
+        <Player initialName={player.O} symbol="O" handleSave={handleSave} isActive={currentPlayer==='O'}/>
       </ol>
-      {winner && <GameOver winner={winner} />}
-      <GameBoard onSelection={handleSelection} board={gameBoard} />
+      {(winner || draw)  && <GameOver winner={winner} onRestart={handleRematch} player={player}/>}
+      <GameBoard onSelection={handleSelection} board={gameBoard}/>
     </div>
     <Log updatedTurns={gameTurns} />
    </main>
